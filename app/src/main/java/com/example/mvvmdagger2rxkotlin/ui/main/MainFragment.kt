@@ -1,28 +1,34 @@
 package com.example.mvvmdagger2rxkotlin.ui.main
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
-import com.example.mvvmdagger2rxkotlin.R
+import androidx.fragment.app.Fragment
+import com.example.mvvmdagger2rxkotlin.databinding.MainFragmentBinding
+
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.subscribeBy
+import javax.inject.Inject
 
 class MainFragment : Fragment() {
 
-    private lateinit var viewModel: MainViewModel
+    @Inject
+    lateinit var viewModel: MainViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        val binding = MainFragmentBinding.inflate(inflater)
+
+
+
+
+
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
 
 }
