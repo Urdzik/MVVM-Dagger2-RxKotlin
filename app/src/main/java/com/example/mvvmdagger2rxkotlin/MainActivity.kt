@@ -2,7 +2,6 @@ package com.example.mvvmdagger2rxkotlin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.mvvmdagger2rxkotlin.ui.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
 

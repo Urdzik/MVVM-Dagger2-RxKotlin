@@ -1,6 +1,6 @@
 package com.example.mvvmdagger2rxkotlin.model
 
-data class Book(
+data class Post(
     val title: String,
     val text: String,
     val author: String,
