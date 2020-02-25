@@ -8,6 +8,7 @@ import com.example.mvvmdagger2rxkotlin.ui.post.PostListViewModel
 
 
 abstract class BaseViewModel : ViewModel() {
+
     private val injector: ViewModelInjector = DaggerViewModelInjector
         .builder()
         .networkModule(NetworkModule)

@@ -7,11 +7,5 @@ data class Post(
     val genre: String,
     val volume: String,
     val date: String,
-    val url: String,
-    val rating: Rating
-)
-
-data class Rating(
-    val litres: Double,
-    val liveLib: Double
+    val url: String
 )

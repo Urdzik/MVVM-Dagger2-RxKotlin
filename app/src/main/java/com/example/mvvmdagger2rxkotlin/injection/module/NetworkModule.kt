@@ -13,7 +13,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.create
 
 @Module
-
+@Suppress("unused")
 object NetworkModule {
 
     @Provides
@@ -29,6 +29,6 @@ object NetworkModule {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
 }
