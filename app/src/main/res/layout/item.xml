@@ -3,10 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
-            name="viewModel"
-            type="com.example.mvvmdagger2rxkotlin.ui.post.PostViewModel" />
+            name="post"
+            type="com.example.mvvmdagger2rxkotlin.model.Post" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +22,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:mutableText="@{viewModel.postTitle}" />
+            android:text="@{post.title}" />
 
         <TextView
             android:id="@+id/post_body"
@@ -33,6 +32,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/post_title"
-            app:mutableText="@{viewModel.postText}" />
+            android:text="@{post.text}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

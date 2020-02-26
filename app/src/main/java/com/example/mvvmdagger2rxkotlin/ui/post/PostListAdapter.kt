@@ -8,10 +8,11 @@ import com.example.mvvmdagger2rxkotlin.R
 import com.example.mvvmdagger2rxkotlin.databinding.ItemBinding
 import com.example.mvvmdagger2rxkotlin.model.Post
 
-class PostListAdapter : RecyclerView.Adapter<PostListAdapter.ViewHolder>() {
-    private lateinit var postList: List<Post>
+class PostListAdapter(
+    private val postList: List<Post>
+) : RecyclerView.Adapter<PostListAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostListAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ItemBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
             R.layout.item,
@@ -21,24 +22,18 @@ class PostListAdapter : RecyclerView.Adapter<PostListAdapter.ViewHolder>() {
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: PostListAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(postList[position])
     }
 
     override fun getItemCount(): Int {
-        return if (::postList.isInitialized) postList.size else 0
-    }
-
-    fun updatePostList(postList: List<Post>) {
-        this.postList = postList
-        notifyDataSetChanged()
+        return postList.size ?: 0
     }
 
     class ViewHolder(private val binding: ItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        private val viewModel = PostViewModel()
         fun bind(post: Post) {
-            viewModel.bind(post)
-            binding.viewModel = viewModel
+            binding.post = post
+            binding.executePendingBindings()
         }
     }
 }

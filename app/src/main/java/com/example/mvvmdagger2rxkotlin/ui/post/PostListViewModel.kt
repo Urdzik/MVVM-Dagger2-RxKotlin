@@ -1,36 +1,38 @@
 package com.example.mvvmdagger2rxkotlin.ui.post
 
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.mvvmdagger2rxkotlin.R
-import com.example.mvvmdagger2rxkotlin.dase.BaseViewModel
 import com.example.mvvmdagger2rxkotlin.model.Post
-import com.example.mvvmdagger2rxkotlin.model.PostApi
+import com.example.mvvmdagger2rxkotlin.model.RemoteSource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 import javax.inject.Inject
 
-class PostListViewModel : BaseViewModel() {
+class PostListViewModel @Inject constructor(
+    private val remoteSource: RemoteSource
+) : ViewModel() {
 
-    @Inject
-    lateinit var postApi: PostApi
     private lateinit var subscription: Disposable
-    val postListAdapter: PostListAdapter = PostListAdapter()
 
     private var _loadingVisibility = MutableLiveData<Int>()
     val loadingVisibility: LiveData<Int>
         get() = _loadingVisibility
 
-
     private var _errorMessage = MutableLiveData<Int>()
     val errorMessage: LiveData<Int>
         get() = _errorMessage
 
+    private var _postsLiveData = MutableLiveData<List<Post>>()
+    val postsLiveData: LiveData<List<Post>>
+        get() = _postsLiveData
+
     var errorClickListener = View.OnClickListener { lostPost() }
-
-
 
 
     init {
@@ -38,7 +40,7 @@ class PostListViewModel : BaseViewModel() {
     }
 
     private fun lostPost() {
-        subscription = postApi.getPost()
+        subscription = remoteSource.postsDataSingle()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { onRetrievePostListStart() }
@@ -59,8 +61,8 @@ class PostListViewModel : BaseViewModel() {
         _loadingVisibility.value = View.GONE
     }
 
-    private fun onRetrievePostListSuccess(post: List<Post>) {
-        postListAdapter.updatePostList(post)
+    private fun onRetrievePostListSuccess(posts: List<Post>) {
+        _postsLiveData.postValue(posts)
     }
 
     private fun onRetrievePostListError() {
