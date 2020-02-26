@@ -1,11 +1,11 @@
 package com.example.mvvmdagger2rxkotlin.ui.post
 
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmdagger2rxkotlin.R
 import com.example.mvvmdagger2rxkotlin.dase.BaseViewModel
+import com.example.mvvmdagger2rxkotlin.model.Post
 import com.example.mvvmdagger2rxkotlin.model.PostApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -17,7 +17,7 @@ class PostListViewModel : BaseViewModel() {
     @Inject
     lateinit var postApi: PostApi
     private lateinit var subscription: Disposable
-
+    val postListAdapter: PostListAdapter = PostListAdapter()
 
     private var _loadingVisibility = MutableLiveData<Int>()
     val loadingVisibility: LiveData<Int>
@@ -31,6 +31,8 @@ class PostListViewModel : BaseViewModel() {
     var errorClickListener = View.OnClickListener { lostPost() }
 
 
+
+
     init {
         lostPost()
     }
@@ -42,10 +44,8 @@ class PostListViewModel : BaseViewModel() {
             .doOnSubscribe { onRetrievePostListStart() }
             .doOnTerminate { onRetrievePostListFinish() }
             .subscribe(
-                { onRetrievePostListSuccess() },
-                {
-                    Log.i("o2",it.toString())
-                    onRetrievePostListError() }
+                { result -> onRetrievePostListSuccess(result) },
+                { onRetrievePostListError() }
             )
     }
 
@@ -59,8 +59,8 @@ class PostListViewModel : BaseViewModel() {
         _loadingVisibility.value = View.GONE
     }
 
-    private fun onRetrievePostListSuccess() {
-
+    private fun onRetrievePostListSuccess(post: List<Post>) {
+        postListAdapter.updatePostList(post)
     }
 
     private fun onRetrievePostListError() {

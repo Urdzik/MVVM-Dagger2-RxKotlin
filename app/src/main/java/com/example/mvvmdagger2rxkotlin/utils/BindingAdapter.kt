@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import com.example.mvvmdagger2rxkotlin.utils.extension.getParentActivity
 
 @BindingAdapter("mutableVisibility")
@@ -30,4 +31,9 @@ fun setMutableText(view: TextView, text: LiveData<String>?) {
             })
         }
     }
+}
+
+@BindingAdapter("adapter")
+fun setAdapter(rv: RecyclerView, adapter: RecyclerView.Adapter<*>) {
+    rv.adapter = adapter
 }
